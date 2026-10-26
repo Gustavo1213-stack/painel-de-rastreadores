@@ -3,10 +3,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>Gestão de Rastreadores</title>
-<script>location.replace("https://edit-sperm-alter-external.trycloudflare.com/" + location.search);</script>
-<meta http-equiv="refresh" content="2; url=https://edit-sperm-alter-external.trycloudflare.com/">
+<script>
+  // Busca o link ATUAL em link.json sem cache (o navegador e o GitHub guardam esta página por até
+  // 10 min; o Edge principalmente). Se não conseguir, usa o link gravado abaixo.
+  (function () {
+    var reserva = "https://catch-orbit-signature-mask.trycloudflare.com", foi = false;
+    function ir(l) { if (foi) return; foi = true; location.replace(String(l).replace(/[/]+$/, "") + "/" + location.search); }
+    try {
+      fetch("link.json?t=" + Date.now(), {cache: "no-store"})
+        .then(function (r) { return r.json(); })
+        .then(function (d) { ir(d && d.link ? d.link : reserva); })
+        .catch(function () { ir(reserva); });
+    } catch (e) { ir(reserva); }
+    setTimeout(function () { ir(reserva); }, 4000);
+  })();
+</script>
+<noscript><meta http-equiv="refresh" content="0; url=https://catch-orbit-signature-mask.trycloudflare.com/"></noscript>
 <style>body{font-family:Segoe UI,Arial,sans-serif;background:#EEF2F9;color:#052766;display:flex;
 align-items:center;justify-content:center;height:100vh;margin:0}a{color:#052766;font-weight:700}</style>
-</head><body><p>Abrindo o painel de Gestão de Rastreadores… <a href="https://edit-sperm-alter-external.trycloudflare.com/">clique aqui se não abrir</a>.</p>
-<!-- atualizado em 26/10/2026 14:42 -->
+</head><body><p>Abrindo o painel de Gestão de Rastreadores… <a href="https://catch-orbit-signature-mask.trycloudflare.com/">clique aqui se não abrir</a>.</p>
+<!-- atualizado em 26/10/2026 14:49 -->
 </body></html>
