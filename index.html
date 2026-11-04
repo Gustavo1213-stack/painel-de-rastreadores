@@ -5,22 +5,34 @@
 <title>Gestão de Rastreadores</title>
 <script>
   // Busca o link ATUAL em link.json sem cache (o navegador e o GitHub guardam esta página por até
-  // 10 min; o Edge principalmente). Se não conseguir, usa o link gravado abaixo.
+  // 10 min; o Edge principalmente). Se link.json disser que o link está sendo renovado (queda de
+  // internet no computador do painel), mostra "aguarde" e tenta de novo sozinha. Se não conseguir
+  // ler link.json, usa o link gravado abaixo.
   (function () {
-    var reserva = "https://brought-qualifying-diet-risks.trycloudflare.com", foi = false;
+    var reserva = "https://arena-emerging-typically-hopkins.trycloudflare.com", foi = false, esperando = false;
     function ir(l) { if (foi) return; foi = true; location.replace(String(l).replace(/[/]+$/, "") + "/" + location.search); }
-    try {
-      fetch("link.json?t=" + Date.now(), {cache: "no-store"})
-        .then(function (r) { return r.json(); })
-        .then(function (d) { ir(d && d.link ? d.link : reserva); })
-        .catch(function () { ir(reserva); });
-    } catch (e) { ir(reserva); }
-    setTimeout(function () { ir(reserva); }, 4000);
+    function aguardar() {
+      esperando = true;
+      var p = document.getElementById("msg");
+      if (p) p.textContent = "O link do painel está sendo renovado (o computador do painel perdeu a internet por um instante). "
+        + "Esta página tenta de novo sozinha a cada 15 segundos; não precisa fazer nada.";
+      setTimeout(buscar, 15000);
+    }
+    function buscar() {
+      try {
+        fetch("link.json?t=" + Date.now(), {cache: "no-store"})
+          .then(function (r) { return r.json(); })
+          .then(function (d) { if (d && d.link) ir(d.link); else if (d && d.aguarde) aguardar(); else ir(reserva); })
+          .catch(function () { if (!esperando) ir(reserva); else setTimeout(buscar, 15000); });
+      } catch (e) { ir(reserva); }
+    }
+    buscar();
+    setTimeout(function () { if (!esperando) ir(reserva); }, 4000);
   })();
 </script>
-<noscript><meta http-equiv="refresh" content="0; url=https://brought-qualifying-diet-risks.trycloudflare.com/"></noscript>
+<noscript><meta http-equiv="refresh" content="0; url=https://arena-emerging-typically-hopkins.trycloudflare.com/"></noscript>
 <style>body{font-family:Segoe UI,Arial,sans-serif;background:#EEF2F9;color:#052766;display:flex;
 align-items:center;justify-content:center;height:100vh;margin:0}a{color:#052766;font-weight:700}</style>
-</head><body><p>Abrindo o painel de Gestão de Rastreadores… <a href="https://brought-qualifying-diet-risks.trycloudflare.com/">clique aqui se não abrir</a>.</p>
-<!-- atualizado em 04/11/2026 14:31 -->
+</head><body><p id="msg">Abrindo o painel de Gestão de Rastreadores… <a href="https://arena-emerging-typically-hopkins.trycloudflare.com/">clique aqui se não abrir</a>.</p>
+<!-- atualizado em 04/11/2026 14:34 -->
 </body></html>
